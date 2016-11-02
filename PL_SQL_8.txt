@@ -1,0 +1,52 @@
+create table e(ssn varchar(6), name varchar(10), deptno int, salary int, primary key(ssn));
+
+insert into e values('01','abc',10,10000);
+insert into e values('02','xyz',20,20000);
+insert into e values('03','pqr',10,30000);
+insert into e values('04','lmn',40,40000);
+
+set serveroutput on;
+
+
+8A)
+/*INCREMENT SALARY OF DEPT 10 EMPLOYEES*/
+
+begin
+
+update e set salary=(1.15*salary) where deptno=10;
+dbms_output.put_line('Number of rows updated are: '||sql%rowcount);
+
+end;
+/
+
+
+
+
+
+8b)
+
+declare
+
+n1 number(10);
+n2 number(10);
+ebigger exception;
+
+begin
+
+n1:= & sv1;
+n2:= & sv2;
+if n1<n2 then
+
+dbms_output.put_line('No error because n1 is smaller than n2');
+
+else
+
+raise ebigger;
+
+end if;
+
+exception when ebigger then
+dbms_output.put_line('Exception caught!n1 is bigger than n2!');
+
+END;
+/

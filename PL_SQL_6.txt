@@ -1,0 +1,113 @@
+create table branch(code varchar(2),name varchar(10),assets int,primary key(code));
+
+create table customer(ssn int,name varchar(12),place varchar(10),primary key(ssn));
+
+create table account(accno varchar(2),ssn int,code varchar(2),balance int,primary key(accno,ssn,code),foreign key(code) references branch(code) ON DELETE CASCADE,foreign key(ssn) references customer(ssn) ON DELETE CASCADE);
+
+insert into branch values('b1','msr',10000);
+insert into branch values('b2','rnr',20000);
+insert into branch values('b3','smr',15000);
+insert into branch values('b4','skr',25000);
+
+insert into customer values(1,'ram','bng');
+insert into customer values(2,'asha','mng');
+insert into customer values(3,'usha','mys');
+insert into customer values(4,'sri','del');
+
+insert into account values('a1',1,'b1',100000);
+insert into account values('a2',1,'b1',200000);
+insert into account values('a3',2,'b2',100000);
+insert into account values('a4',3,'b2',100000);
+insert into account values('a5',3,'b2',100000);
+insert into account values('a5',3,'b2',100000);
+insert into account values('a7',4,'b2',200000);
+
+SET SERVEROUTPUT ON;
+
+6A)
+/* DISPLAY ALL TABLE CONTENTS*/
+
+
+DECLARE
+
+CURSOR CC IS
+SELECT * FROM BRANCH;
+V_CC CC%ROWTYPE;
+
+BEGIN
+
+OPEN CC;
+LOOP
+FETCH CC INTO V_CC ;
+EXIT WHEN CC %NOTFOUND;
+DBMS_OUTPUT.PUT_LINE('CODE '||V_CC.CODE||'NAME '||V_CC.NAME||'ASSETS '||V_CC.ASSETS);
+END LOOP;
+CLOSE CC;
+END;
+
+/
+
+
+
+
+DECLARE
+
+CURSOR CC1 IS
+SELECT * FROM CUSTOMER;
+V_CC1 CC1%ROWTYPE;
+
+BEGIN
+
+OPEN CC1;
+LOOP
+FETCH CC1 INTO V_CC1;
+EXIT WHEN CC1%NOTFOUND;
+DBMS_OUTPUT.PUT_LINE('SSN '||V_CC1.SSN||'NAME '||V_CC1.NAME||'PLACE '||V_CC1.PLACE);
+END LOOP;
+CLOSE CC1;
+END;
+
+/
+
+
+
+
+
+DECLARE
+
+CURSOR CC2 IS
+SELECT * FROM account;
+V_CC2 CC2%ROWTYPE;
+
+BEGIN
+
+OPEN CC2;
+LOOP
+FETCH CC2 INTO V_CC2;
+EXIT WHEN CC2%NOTFOUND;
+DBMS_OUTPUT.PUT_LINE(' accno '||V_CC2.accno ||' ssn '||V_CC2.ssn ||' code '||V_CC2.code ||' balance '||V_CC2.balance);
+END LOOP;
+CLOSE CC2;
+END;
+
+/
+
+
+
+
+6b)
+/*UPDATE TABLE VALUES*/
+
+
+DECLARE
+
+V_INC NUMBER:=10;
+
+BEGIN
+
+UPDATE ACCOUNT
+SET BALANCE=BALANCE+(BALANCE*0.1)
+WHERE ssn=1;
+COMMIT;
+END;
+/
