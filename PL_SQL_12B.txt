@@ -1,0 +1,20 @@
+12B)
+
+set serveroutput on;
+
+declare
+
+	cursor c is select sname from Supplier, Supply where Supply.pno=234 and Supply.sno=Supplier.sno;
+	s_name Supplier.sname%type;
+
+begin
+
+	open c;
+	loop
+	fetch c into s_name;
+	exit when c%notfound;
+	dbms_output.put_line(s_name);
+	end loop;
+	close c;
+end;
+/
