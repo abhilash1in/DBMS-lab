@@ -12,16 +12,16 @@ DECLARE
 BEGIN
 
  WHILE(j<=n/2) loop
- if mod(n,j)=0 then
- dbms_output.put_line(n ||' is not prime number');
- counter:=1;
- exit ;
- else
- j:=j+1;
- end if;
+	 if mod(n,j)=0 then
+		 dbms_output.put_line(n ||' is not prime number');
+		 counter:=1;
+		 exit ;
+	 else
+	 	j:=j+1;
+	 end if;
  end loop;
  if counter=0 then
- dbms_output.put_line( n || ' is a prime number');
+ 	dbms_output.put_line( n || ' is a prime number');
  end if;
 end;
 

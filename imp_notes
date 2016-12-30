@@ -1,0 +1,59 @@
+cursor cc is select * from table_name;
+
+v_cc cc%rowtype;
+exit when cc%notfound
+counter:=cc%rowcount;
+sql%rowcount;
+
+commit after update
+
+a number:=10;
+n number:=&n;
+
+t_date = sysdate;
+name = initcap(to_char(t_date,'day'))
+
+if condition then
+elsif condition then
+end if;
+
+loop
+end loop;
+
+while condition loop
+end loop;
+
+for i in 1..x loop
+end loop;
+
+e exception;
+raise e;
+exception when e then
+
+case
+	when condition1 then
+		do something;
+	when condition2 then
+		do something;
+	else
+		do something;
+end case;
+
+procedure proc_name (x in number, y out number) is
+begin
+...
+end proc_name;
+
+create or replace trigger t1 before insert or update on e for each row
+declare
+begin
+end
+
+create view v2 as select ...;
+
+
+trunc()
+trim()
+
+close cc;
+end;

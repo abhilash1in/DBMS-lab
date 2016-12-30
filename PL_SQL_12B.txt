@@ -4,8 +4,8 @@ set serveroutput on;
 
 declare
 
-	cursor c is select sname from Supplier, Supply where Supply.pno=234 and Supply.sno=Supplier.sno;
-	s_name Supplier.sname%type;
+	cursor c is select sname from supplier where sno in (select sno from supply where pno= 1);
+	s_name supplier.sname%type;
 
 begin
 
@@ -18,3 +18,7 @@ begin
 	close c;
 end;
 /
+
+
+
+cursor c is select sname from Supplier, Supply where Supply.pno=234 and Supply.sno=Supplier.sno;

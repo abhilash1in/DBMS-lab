@@ -10,21 +10,19 @@ n number;
 i number;
 f number:=1;
 
-procedure fact (x in number) is
+procedure fact (x IN number) IS
 begin
 
 for i in 1..x loop
 f:=f*i;
 end loop;
-
 dbms_output.put_line(x||'! = '||f);
-end fact;
+end;
 
 begin
 
 n:=&sv;
 fact(n);
-
 end;
 /
 

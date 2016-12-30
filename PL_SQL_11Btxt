@@ -1,0 +1,50 @@
+create or replace trigger t1 before update on
+ e for each row
+ DECLARE
+    l_day  VARCHAR2(10);
+    e exception;
+ BEGIN
+    l_day := TRIM(TO_CHAR(SYSDATE, 'DAY'));
+   CASE
+     WHEN l_day = 'FRIDAY' THEN    
+      raise_application_error(-20101, 'Can not able to modify the data');
+     WHEN l_day = 'SUNDAY' THEN
+      raise e;
+     ELSE
+       DBMS_OUTPUT.put_line('update is allowed');
+   END CASE;
+   exception when e then
+      dbms_output.put_line('Can not able to modify the data');
+      raise;
+ END;
+/
+
+update e set ssn = '04' where ssn = '06';
+update e set ssn = '06' where ssn = '04';
+
+Trigger created.
+
+SQL> update employee set ssn=6;
+update is allowed
+update is allowed
+
+2 rows updated.
+
+SQL> select * from employee;
+
+       SSN NAME
+---------- --------------------
+         6 john
+         6 arun
+
+Change the Day to Monday or Tuesday (Instead of Saturday and Sunday) and execute the trigger
+SQL>/
+Trigger created
+
+SQL> UPDATE EMPLOYEE SET SSN=8;
+UPDATE EMPLOYEE SET SSN=8
+       *
+ERROR at line 1:
+ORA-20999: Can not  able to modify the data
+ORA-06512: at "SYSTEM.T1", line 8
+ORA-04088: error during execution of trigger 'SYSTEM.T1'

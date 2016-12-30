@@ -1,0 +1,28 @@
+create view 1 as select a.ssn,a.name,a.deptno,b.projectno from employee a, assignedto b where 
+a.ssn=b.ssn and b.projectno>=2;
+
+View created.
+
+
+declare
+cursor c1 is select * from v1;
+ssn number(7);
+name varchar2(20);
+deptno number(2);
+salary number(7,2);
+projectno number(3);
+tmp v1%rowtype;
+begin
+open c1;
+loop exit when c1%NOTFOUND;
+  FETCH c1 into ssn,name,deptno,salary,projectno;
+  dbms_output.put_line('empno is '|| ssn);
+  dbms_output.put_line('empname is '|| name);
+  dbms_output.put_line('deptno is '|| deptno);
+dbms_output.put_line('salary is '|| salary);
+  dbms_output.put_line('projectno is '|| projectno);
+ END Loop;
+ dbms_output.put_line('total rows are'|| SQL%ROWCOUNT);
+CLOSE c1;
+END;
+/

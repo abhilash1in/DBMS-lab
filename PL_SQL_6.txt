@@ -19,7 +19,7 @@ insert into account values('a2',1,'b1',200000);
 insert into account values('a3',2,'b2',100000);
 insert into account values('a4',3,'b2',100000);
 insert into account values('a5',3,'b2',100000);
-insert into account values('a5',3,'b2',100000);
+insert into account values('a6',3,'b2',100000);
 insert into account values('a7',4,'b2',200000);
 
 SET SERVEROUTPUT ON;
@@ -30,8 +30,7 @@ SET SERVEROUTPUT ON;
 
 DECLARE
 
-CURSOR CC IS
-SELECT * FROM BRANCH;
+CURSOR CC IS SELECT * FROM BRANCH;
 V_CC CC%ROWTYPE;
 
 BEGIN
@@ -40,7 +39,7 @@ OPEN CC;
 LOOP
 FETCH CC INTO V_CC ;
 EXIT WHEN CC %NOTFOUND;
-DBMS_OUTPUT.PUT_LINE('CODE '||V_CC.CODE||'NAME '||V_CC.NAME||'ASSETS '||V_CC.ASSETS);
+DBMS_OUTPUT.PUT_LINE('CODE '||V_CC.CODE||', NAME '||V_CC.NAME||', ASSETS '||V_CC.ASSETS);
 END LOOP;
 CLOSE CC;
 END;

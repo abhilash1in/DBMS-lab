@@ -1,0 +1,90 @@
+create table department
+ (
+ 	deptno int,
+ 	deptname varchar(20),
+ 	primary key(deptno)
+ );
+
+create table employee
+ (
+ ssn varchar(6),
+ name varchar(10),
+ deptno int,
+ primary key(ssn),
+ foreign key(deptno) references department(deptno) on delete cascade
+ );
+
+ create table project
+ (
+ projectno varchar(10),
+ projectarea varchar(20),
+ primary key(projectno)
+ );
+
+ create table assigned_to
+ (
+ usn varchar(6),
+ projectno varchar(10),
+ foreign key(usn)references employee(ssn),
+ foreign key(projectno)references project(projectno)
+ );
+
+ insert into department values(10,'Sales');
+ insert into department values(20,'Marketing');
+ insert into department values(30,'Finance');
+ insert into department values(40,'HR');
+
+
+ insert into employee values('01','abc',10);
+ insert into employee values('02','xyz',20);
+ insert into employee values('03','pqr',30);
+ insert into employee values('04','lmn',40);
+
+ insert into project values('100','database');
+ insert into project values('200','network');
+ insert into project values('300','android');
+ insert into project values('400','security');
+ insert into project values('500','web');
+
+ insert into assigned_to values('01','100');
+ insert into assigned_to values('01','200');
+ insert into assigned_to values('02','200');
+ insert into assigned_to values('03','100');
+ insert into assigned_to values('04','100');
+ insert into assigned_to values('04','200');
+ insert into assigned_to values('04','300');
+ insert into assigned_to values('04','400');
+ insert into assigned_to values('04','500');
+
+
+create view v1 as select * from employee where ssn in(select usn from assigned_to where usn in (select usn from employee where deptno = (select deptno from department where deptname='Sales')) group by usn having count(*)>=5);
+
+
+declare
+cursor c1 is select * v1;
+ssn varchar2(6);
+name varchar2(10);
+deptno int;
+tmp c1%rowtype;
+begin
+open c1;
+loop exit when c1%NOTFOUND;
+  FETCH c1 into ssn,name,deptno;
+  dbms_output.put_line('empno is '|| ssn);
+  dbms_output.put_line('empname is '|| name);
+  dbms_output.put_line('deptno is '|| deptno);
+END Loop;
+ dbms_output.put_line('total rows are'|| SQL%ROWCOUNT);
+CLOSE c1;
+END;
+/
+
+
+
+select usn,count(projectno) from assigned_to group by usn having count(*)>2 and max(case projectno when '200' then 1 else 0 end)=1;
+
+select * from employee where deptno=(select deptno from department where deptname='Sales')
+
+select usn,count(projectno) from assigned_to where usn in (select usn from employee where deptno = (select deptno from department where deptname='Sales')) group by usn having count(*)>2 and max(case projectno when '200' then 1 else 0 end)=1;
+
+create view v1 as select name from employee where ssn in(select usn from assigned_to where usn in (select usn from employee where deptno = (select deptno from department where deptname='Sales')) group by usn having count(*)>=5);
